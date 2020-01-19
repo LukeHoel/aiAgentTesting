@@ -2,6 +2,7 @@ body{
 	color: red;
 }
 canvas{
+	cursor: none;
 	width: 500px;
 	height: 500px;
 	image-rendering: -webkit-optimize-contrast;

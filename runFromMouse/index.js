@@ -63,4 +63,7 @@ setInterval(() => {
     // Draw agent
     context.fillStyle = "red";
     context.fillRect(worldState.agent.x, worldState.agent.y, 1, 1);
+    // Draw mouse
+    context.fillStyle = "orange";
+    context.fillRect(worldState.mouse.x, worldState.mouse.y, 1, 1);
 }, 100);
