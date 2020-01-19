@@ -1,0 +1,9 @@
+body{
+	color: red;
+}
+canvas{
+	width: 500px;
+	height: 500px;
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: -moz-crisp-edges;
+}

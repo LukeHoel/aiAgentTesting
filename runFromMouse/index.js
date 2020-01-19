@@ -1,34 +1,24 @@
-// Set up the hill (pretty rudamentary -_-)
-const hill = [];
-for (let i = 0; i < 50; i++) hill.push([]);
-const fillSquare = (x, y, width, height, tallNess) => {
-    for (let i = x; i < x + width; i++) {
-        for (let o = y; o < y + height; o++) {
-            hill[i][o] = tallNess;
-        }
-    }
-};
-for (let i = 0; i < 25; i++) {
-    fillSquare(i, i, hill.length - i * 2, hill.length - i * 2, i);
-}
-
-const enemies = [];
-for (let i = 0; i < hill.length; i++) {
-    for (let o = 0; o < hill.length; o++) {
-        if (i % 4 === 0 && Math.random() > .3) {
-            enemies.push({ x: i, y: o });
-        }
-    }
-}
 
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext('2d');
 
 let worldState = {
-    hill,
-    enemies,
-    agent: { x: 0, y: 0 }
+    mouse: { x: 0, y: 0 },
+    agent: { x: 25, y: 25 }
 };
+
+const enemies = [];
+for (let i = 0; i < 50; i++) {
+    for (let o = 0; o < 50; o++) {
+        if (i % 4 === 0 && Math.random() > .5) {
+            enemies.push({ x: i, y: o });
+        }
+    }
+}
+
+const setMousePosition = (event) => {
+    worldState.mouse = { x: event.clientX / 10, y: event.clientY / 10 };
+}
 
 // Agent can go in any direction
 const options = [
@@ -39,13 +29,12 @@ const options = [
 ]
 
 const utilityFunction = (worldState) => {
-    if (worldState.agent.x < 0 ||
-        worldState.agent.y < 0 ||
-        (enemies.find(enemy => enemy.x === worldState.agent.x && enemy.y === worldState.agent.y))
+    if (worldState.agent.x < 0 || worldState.agent.y < 0 || worldState.agent.x > 50 || worldState.agent.y > 50
+        || (enemies.find(enemy => enemy.x === worldState.agent.x && enemy.y === worldState.agent.y))
     ) {
         return -1;
     }
-    return worldState.hill[worldState.agent.x][worldState.agent.y];
+    return Math.max(Math.abs(worldState.agent.x - worldState.mouse.x), Math.abs(worldState.agent.y - worldState.mouse.y));
 }
 
 // Calculate best world state given utility function
@@ -66,14 +55,6 @@ setInterval(() => {
     worldState = bestWorldState(options.map(option => option(worldState)));
     context.fillStyle = "black";
     context.clearRect(0, 0, canvas.width, canvas.height);
-    // Draw hill
-    for (let i = 0; i < hill.length; i++) {
-        for (let o = 0; o < hill.length; o++) {
-            const grade = hill[i][o];
-            context.fillStyle = `rgba(0,0,0,${2 * (grade / 50)}`;
-            context.fillRect(i, o, 1, 1)
-        }
-    }
     // Draw enemies
     context.fillStyle = "blue";
     for (let i = 0; i < enemies.length; i++) {
