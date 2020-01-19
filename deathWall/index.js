@@ -6,6 +6,7 @@ let worldState = {
 
 const options = [
     (worldState) => ({ ...worldState, agent: { x: worldState.agent.x + 1 } }),
+    (worldState) => ({ ...worldState, agent: { x: worldState.agent.x + 5 } }),
     (worldState) => ({ ...worldState, agent: { x: worldState.agent.x - 1 } }),
 ]
 const utilityFunction = (worldState) => worldState.agent.x - worldState.deathWall.x;

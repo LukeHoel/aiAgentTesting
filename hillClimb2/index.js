@@ -15,7 +15,7 @@ for (let i = 0; i < 25; i++) {
 const enemies = [];
 for (let i = 0; i < hill.length; i++) {
     for (let o = 0; o < hill.length; o++) {
-        if (i % 4 === 0 && Math.random() > .5) {
+        if (i % 4 === 0 && Math.random() > .4) {
             enemies.push({ x: i, y: o });
         }
     }
